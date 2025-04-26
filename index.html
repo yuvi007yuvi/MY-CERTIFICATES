@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Certificates Showcase</title>
+ <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+ <style>
+ :root {
+ --primary-color: #1a1f2c;
+ --accent-color: #00a8ff;
+ --text-color: #e1e1e1;
+ --bg-color: #0f1218;
+ --card-bg: rgba(255, 255, 255, 0.1);
+ --glass-border: rgba(255, 255, 255, 0.1);
+ --glass-shadow: rgba(0, 0, 0, 0.2);
+ --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
+ }
+
+ body {
+ font-family: 'Segoe UI', Arial, sans-serif;
+ margin: 0;
+ padding: 0;
+ background-color: var(--bg-color);
+ position: relative;
+ color: var(--text-color);
+ }
+
+ #particles-js {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 0;
+ pointer-events: none;
+ }
+
+ .header {
+ background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+ background-size: 200% 200%;
+ animation: gradientBG 15s ease infinite;
+ color: white;
+ padding: 40px 20px;
+ text-align: center;
+ margin-bottom: 40px;
+ position: relative;
+ z-index: 1;
+ animation: fadeInDown 1s ease-out;
+ }
+
+ @keyframes fadeInDown {
+ from {
+ opacity: 0;
+ transform: translateY(-20px);
+ }
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+
+ .header h1 {
+ margin: 0;
+ font-size: 2.5em;
+ font-weight: 600;
+ }
+
+ .header p {
+ margin: 10px 0 0;
+ font-size: 1.2em;
+ opacity: 0.9;
+ }
+
+ .container {
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 0 20px;
+ }
+ .category {
+ margin-bottom: 60px;
+ background: var(--card-bg);
+ padding: 30px;
+ border-radius: 15px;
+ border: 1px solid var(--glass-border);
+ backdrop-filter: blur(10px);
+ box-shadow: 0 10px 20px var(--glass-shadow);
+ position: relative;
+ z-index: 1;
+ animation: fadeIn 0.8s ease-out;
+ transform: translateY(20px);
+ opacity: 0;
+ }
+
+ @keyframes fadeIn {
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+
+ .category-title {
+ font-size: 28px;
+ color: var(--text-color);
+ margin-bottom: 25px;
+ padding-bottom: 15px;
+ border-bottom: 3px solid var(--accent-color);
+ position: relative;
+ }
+
+.category-title i {
+ margin-right: 10px;
+ color: var(--accent-color);
+ }
+
+.overlay h3 i {
+ margin-right: 8px;
+ color: var(--accent-color);
+ }
+
+ .category-count {
+ font-size: 20px;
+ color: var(--accent-color);
+ margin-left: 10px;
+ font-weight: normal;
+ }
+
+ .total-certificates {
+ font-size: 1.4em;
+ margin-top: 15px;
+ padding: 8px 20px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 8px;
+ display: inline-block;
+ }
+ .grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 20px;
+ }
+ .certificate {
+ position: relative;
+ overflow: hidden;
+ border-radius: 12px;
+ border: 1px solid var(--glass-border);
+ box-shadow: 0 8px 16px var(--glass-shadow);
+ transition: all 0.5s var(--animation-timing);
+ background: var(--card-bg);
+ backdrop-filter: blur(5px);
+ cursor: pointer;
+ }
+
+ .certificate:hover {
+ transform: translateY(-10px) scale(1.02);
+ box-shadow: 0 15px 30px var(--glass-shadow);
+ border-color: var(--accent-color);
+ }
+ .certificate img {
+ width: 100%;
+ height: auto;
+ display: block;
+ }
+
+ .certificate:hover {
+ transform: scale(1.05);
+ }
+ .overlay {
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ background: linear-gradient(to top, rgba(0, 8, 20, 0.95), rgba(0, 8, 20, 0.8));
+ color: white;
+ padding: 20px;
+ transform: translateY(100%);
+ transition: transform 0.3s var(--animation-timing);
+ backdrop-filter: blur(5px);
+ }
+
+ @keyframes gradientBG {
+ 0% { background-position: 0% 50%; }
+ 50% { background-position: 100% 50%; }
+ 100% { background-position: 0% 50%; }
+ }
+
+ .overlay h3 {
+ margin: 0 0 8px;
+ font-size: 1.2em;
+ font-weight: 600;
+ }
+
+ .overlay p {
+ margin: 0;
+ font-size: 0.9em;
+ opacity: 0.9;
+ }
+ .certificate:hover .overlay {
+ transform: translateY(0);
+ }
+ </style>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+ <div id="particles-js"></div>
+ <div class="header">
+ <h1>Yuvraj Singh Tomar</h1>
+ <p>Cybersecurity Expert & Web Developer</p>
+ <div class="total-certificates">Total Certificates: <span id="total-count">0</span></div>
+ </div>
+ <div class="container">
+ <div id="categories"></div>
+ </div>
+
+ <script>
+function getCategoryIcon(category) {
+  const icons = {
+    'Development': 'fa-code',
+    'Security': 'fa-shield-alt',
+    'Data & AI': 'fa-brain',
+    'Professional Certifications': 'fa-certificate'
+  };
+  return icons[category] || 'fa-award';
+}
+
+function getCertificateIcon(title) {
+  const icons = {
+    'JavaScript': 'fa-js',
+    'Python Programming': 'fa-python',
+    'MERN Stack Development': 'fa-node-js',
+    'Full Stack Development': 'fa-layer-group',
+    'Responsive Web Development': 'fa-mobile-alt',
+    'MySQL': 'fa-database',
+    'Deep Web Security': 'fa-user-secret',
+    'Ethical Hacking': 'fa-bug',
+    'Computer Forensics': 'fa-search',
+    'Red Team - Ethical Hacking': 'fa-skull',
+    'White Hat Hacking': 'fa-hat-cowboy',
+    'Cybersecurity Virtual Experience': 'fa-shield-virus',
+    'Data Analysis': 'fa-chart-bar',
+    'Generative AI': 'fa-robot',
+    'Geographic Information Systems': 'fa-globe',
+    'Power BI': 'fa-chart-pie',
+    'Prompt Engineering': 'fa-terminal',
+    'AI in Unity': 'fa-gamepad',
+    'Cisco Networking': 'fa-network-wired',
+    'Oracle Certification': 'fa-database',
+    'Google Navigation': 'fa-compass',
+    'Microsoft Azure': 'fa-cloud',
+    'Quality Management': 'fa-check-circle',
+    'Service and Sales Management': 'fa-handshake',
+    'Digital Marketing': 'fa-bullhorn'
+  };
+  return icons[title] || 'fa-award';
+}
+
+const certificates = {
+ 'Development': [
+   {
+     image: 'javascript.jpg',
+     title: 'JavaScript',
+     description: 'Advanced certification in JavaScript programming'
+   },
+   {
+     image: 'python.jpg',
+     title: 'Python Programming',
+     description: 'Professional certification in Python programming'
+   },
+   {
+     image: 'MERN STACK.png',
+     title: 'MERN Stack Development',
+     description: 'Full-stack development certification in MongoDB, Express, React, and Node.js'
+   },
+   {
+     image: 'ROAD TO FULL STACK.jfif',
+     title: 'Full Stack Development',
+     description: 'Comprehensive certification in full-stack web development'
+   },
+   {
+     image: 'responsive web devlopment.jpg',
+     title: 'Responsive Web Development',
+     description: 'Certification in responsive web design and development'
+   },
+   {
+     image: 'MYSQL_page-0001.jpg',
+     title: 'MySQL',
+     description: 'Professional certification in MySQL database management'
+   }
+ ],
+ 'Security': [
+   {
+     image: 'deep web security.jpg',
+     title: 'Deep Web Security',
+     description: 'Advanced certification in deep web security protocols'
+   },
+   {
+     image: 'ethical hacking.jpg',
+     title: 'Ethical Hacking',
+     description: 'Professional certification in ethical hacking and cybersecurity'
+   },
+   {
+     image: 'forensic computer.jpg',
+     title: 'Computer Forensics',
+     description: 'Certification in computer forensics and digital investigation'
+   },
+   {
+     image: 'red team-ethical hacking.jpg',
+     title: 'Red Team - Ethical Hacking',
+     description: 'Advanced certification in red team security operations'
+   },
+   {
+     image: 'white hat hacking.jfif',
+     title: 'White Hat Hacking',
+     description: 'Certification in white hat hacking and security practices'
+   },
+   {
+     image: 'Cybersecurity Virtual Experience Program_page-0001.jpg',
+     title: 'Cybersecurity Virtual Experience',
+     description: 'Comprehensive virtual experience program in cybersecurity'
+   }
+ ],
+ 'Data & AI': [
+   {
+     image: 'DATA ANALYSIST.jfif',
+     title: 'Data Analysis',
+     description: 'Professional certification in data analysis and visualization'
+   },
+   {
+     image: 'GENRATIVE AI.jfif',
+     title: 'Generative AI',
+     description: 'Certification in generative AI technologies and applications'
+   },
+   {
+     image: 'GIS.jfif',
+     title: 'Geographic Information Systems',
+     description: 'Certification in GIS technologies and spatial analysis'
+   },
+   {
+     image: 'power bi.jpg',
+     title: 'Power BI',
+     description: 'Professional certification in Power BI data visualization'
+   },
+   {
+     image: 'prompt engineering.jfif',
+     title: 'Prompt Engineering',
+     description: 'Certification in AI prompt engineering techniques'
+   },
+   {
+     image: 'ai in unity practicle.jpg',
+     title: 'AI in Unity',
+     description: 'Practical certification in implementing AI in Unity game development'
+   }
+ ],
+ 'Professional Certifications': [
+   {
+     image: 'CISCO NETWORKING.jfif',
+     title: 'Cisco Networking',
+     description: 'Certification in Cisco Networking fundamentals and infrastructure'
+   },
+   {
+     image: 'Certificate OF ORACAL.jpg',
+     title: 'Oracle Certification',
+     description: 'Professional certification in Oracle database technologies'
+   },
+   {
+     image: 'NAVIGATING GOOGLE.jpg',
+     title: 'Google Navigation',
+     description: 'Certification in Google technologies and platforms'
+   },
+   {
+     image: 'azure badge.jfif',
+     title: 'Microsoft Azure',
+     description: 'Professional certification in Microsoft Azure cloud services'
+   },
+   {
+     image: 'quality management.jpg',
+     title: 'Quality Management',
+     description: 'Certification in quality management systems and practices'
+   },
+   {
+     image: 'service and sales management.jpg',
+     title: 'Service and Sales Management',
+     description: 'Professional certification in service and sales management'
+   },
+   {
+     image: 'Digital marketing_page-0001.jpg',
+     title: 'Digital Marketing',
+     description: 'Professional certification in digital marketing strategies and practices'
+   }
+ ]
+ };
+
+ const categoriesDiv = document.getElementById('categories');
+
+ // Intersection Observer for fade-in animation
+ const observer = new IntersectionObserver((entries) => {
+   entries.forEach(entry => {
+     if (entry.isIntersecting) {
+       entry.target.style.opacity = '1';
+       entry.target.style.transform = 'translateY(0)';
+       observer.unobserve(entry.target);
+     }
+   });
+ }, { threshold: 0.1 });
+
+ // Calculate total certificates
+ let totalCertificates = 0;
+ Object.values(certificates).forEach(certs => {
+   totalCertificates += certs.length;
+ });
+ document.getElementById('total-count').textContent = totalCertificates;
+
+ Object.entries(certificates).forEach(([category, certs]) => {
+ const categorySection = document.createElement('div');
+ categorySection.className = 'category';
+ categorySection.innerHTML = `
+   <h2 class="category-title"><i class="fas ${getCategoryIcon(category)}"></i> ${category} <span class="category-count">(${certs.length})</span></h2>
+   <div class="grid"></div>
+ `;
+
+ const grid = categorySection.querySelector('.grid');
+
+ certs.forEach(cert => {
+   const item = document.createElement('div');
+   item.className = 'certificate';
+   
+   item.innerHTML = `
+     <img src="${cert.image}" alt="${cert.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Certificate+Image'">
+     <div class="overlay">
+       <h3><i class="fas ${getCertificateIcon(cert.title)}"></i> ${cert.title}</h3>
+       <p>${cert.description}</p>
+     </div>
+   `;
+   
+   grid.appendChild(item);
+ });
+
+ categoriesDiv.appendChild(categorySection);
+ observer.observe(categorySection);
+ });
+
+ // Add smooth scroll behavior
+ document.documentElement.style.scrollBehavior = 'smooth';
+ </script>
+ <script>
+ particlesJS('particles-js', {
+  particles: {
+    number: { value: 100, density: { enable: true, value_area: 1000 } },
+    color: { value: '#00a8ff' },
+    shape: { type: 'circle' },
+    opacity: { value: 0.3, random: true },
+    size: { value: 2, random: true },
+    line_linked: { enable: true, distance: 150, color: '#00a8ff', opacity: 0.2, width: 1 },
+    move: { enable: true, speed: 2, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+  },
+  interactivity: {
+    detect_on: 'window',
+    events: { onhover: { enable: true, mode: 'repulse' }, resize: true },
+    modes: { repulse: { distance: 100, duration: 0.4 } }
+  },
+  retina_detect: true
+ });
+ </script>
+</body>
+</html>
