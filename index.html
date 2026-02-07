@@ -1,464 +1,691 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Certificates Showcase</title>
- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
- <style>
- :root {
- --primary-color: #1a1f2c;
- --accent-color: #00a8ff;
- --text-color: #e1e1e1;
- --bg-color: #0f1218;
- --card-bg: rgba(255, 255, 255, 0.1);
- --glass-border: rgba(255, 255, 255, 0.1);
- --glass-shadow: rgba(0, 0, 0, 0.2);
- --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
- }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificates Showcase</title>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #1a1f2c;
+      --accent-color: #00a8ff;
+      --accent-hover: #0090db;
+      --text-color: #e1e1e1;
+      --bg-color: #0f1218;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      /* Slightly darker for better contrast */
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-shadow: rgba(0, 0, 0, 0.3);
+      --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
+      --modal-bg: rgba(0, 0, 0, 0.85);
+    }
 
- body {
- font-family: 'Segoe UI', Arial, sans-serif;
- margin: 0;
- padding: 0;
- background-color: var(--bg-color);
- position: relative;
- color: var(--text-color);
- }
+    body {
+      font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      position: relative;
+      color: var(--text-color);
+      overflow-x: hidden;
+      /* Prevent horizontal scroll */
+    }
 
- #particles-js {
- position: fixed;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- z-index: 0;
- pointer-events: none;
- }
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
 
- .header {
- background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
- background-size: 200% 200%;
- animation: gradientBG 15s ease infinite;
- color: white;
- padding: 40px 20px;
- text-align: center;
- margin-bottom: 40px;
- position: relative;
- z-index: 1;
- animation: fadeInDown 1s ease-out;
- }
+    .header {
+      background: linear-gradient(135deg, rgba(26, 31, 44, 0.9), rgba(0, 168, 255, 0.2));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+      animation: fadeInDown 1s ease-out;
+    }
 
- @keyframes fadeInDown {
- from {
- opacity: 0;
- transform: translateY(-20px);
- }
- to {
- opacity: 1;
- transform: translateY(0);
- }
- }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
 
- .header h1 {
- margin: 0;
- font-size: 2.5em;
- font-weight: 600;
- }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
- .header p {
- margin: 10px 0 0;
- font-size: 1.2em;
- opacity: 0.9;
- }
+    .header h1 {
+      margin: 0;
+      font-size: 3em;
+      /* Larger title */
+      font-weight: 700;
+      background: linear-gradient(to right, #fff, var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
- .container {
- max-width: 1200px;
- margin: 0 auto;
- padding: 0 20px;
- }
- .category {
- margin-bottom: 60px;
- background: var(--card-bg);
- padding: 30px;
- border-radius: 15px;
- border: 1px solid var(--glass-border);
- backdrop-filter: blur(10px);
- box-shadow: 0 10px 20px var(--glass-shadow);
- position: relative;
- z-index: 1;
- animation: fadeIn 0.8s ease-out;
- transform: translateY(20px);
- opacity: 0;
- }
+    .header p {
+      margin: 15px 0 0;
+      font-size: 1.3em;
+      opacity: 0.9;
+      color: #cbd5e1;
+    }
 
- @keyframes fadeIn {
- to {
- opacity: 1;
- transform: translateY(0);
- }
- }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      /* Added bottom padding */
+      position: relative;
+      z-index: 1;
+    }
 
- .category-title {
- font-size: 28px;
- color: var(--text-color);
- margin-bottom: 25px;
- padding-bottom: 15px;
- border-bottom: 3px solid var(--accent-color);
- position: relative;
- }
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .header {
+        padding: 40px 15px;
+      }
 
-.category-title i {
- margin-right: 10px;
- color: var(--accent-color);
- }
+      .header h1 {
+        font-size: 2.2em;
+      }
 
-.overlay h3 i {
- margin-right: 8px;
- color: var(--accent-color);
- }
+      .header p {
+        font-size: 1.1em;
+      }
 
- .category-count {
- font-size: 20px;
- color: var(--accent-color);
- margin-left: 10px;
- font-weight: normal;
- }
+      .category-title {
+        font-size: 24px;
+      }
 
- .total-certificates {
- font-size: 1.4em;
- margin-top: 15px;
- padding: 8px 20px;
- background: rgba(255, 255, 255, 0.1);
- border-radius: 8px;
- display: inline-block;
- }
- .grid {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
- gap: 20px;
- }
- .certificate {
- position: relative;
- overflow: hidden;
- border-radius: 12px;
- border: 1px solid var(--glass-border);
- box-shadow: 0 8px 16px var(--glass-shadow);
- transition: all 0.5s var(--animation-timing);
- background: var(--card-bg);
- backdrop-filter: blur(5px);
- cursor: pointer;
- }
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 15px;
+      }
 
- .certificate:hover {
- transform: translateY(-10px) scale(1.02);
- box-shadow: 0 15px 30px var(--glass-shadow);
- border-color: var(--accent-color);
- }
- .certificate img {
- width: 100%;
- height: auto;
- display: block;
- }
+      /* Improved Grid for mobile */
+    }
 
- .certificate:hover {
- transform: scale(1.05);
- }
- .overlay {
- position: absolute;
- bottom: 0;
- left: 0;
- right: 0;
- background: linear-gradient(to top, rgba(0, 8, 20, 0.95), rgba(0, 8, 20, 0.8));
- color: white;
- padding: 20px;
- transform: translateY(100%);
- transition: transform 0.3s var(--animation-timing);
- backdrop-filter: blur(5px);
- }
+    .category {
+      margin-bottom: 60px;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 20px;
+      /* Softer corners */
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+      animation: fadeIn 0.8s ease-out;
+      opacity: 0;
+      transform: translateY(20px);
+      /* Initial state for observer */
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
 
- @keyframes gradientBG {
- 0% { background-position: 0% 50%; }
- 50% { background-position: 100% 50%; }
- 100% { background-position: 0% 50%; }
- }
+    .category.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
- .overlay h3 {
- margin: 0 0 8px;
- font-size: 1.2em;
- font-weight: 600;
- }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
- .overlay p {
- margin: 0;
- font-size: 0.9em;
- opacity: 0.9;
- }
- .certificate:hover .overlay {
- transform: translateY(0);
- }
- </style>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    .category-title {
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(0, 168, 255, 0.3);
+      display: flex;
+      align-items: center;
+    }
+
+    .category-title i {
+      margin-right: 15px;
+      color: var(--accent-color);
+      background: rgba(0, 168, 255, 0.1);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .category-count {
+      font-size: 0.6em;
+      color: var(--accent-color);
+      margin-left: auto;
+      background: rgba(0, 168, 255, 0.1);
+      /* Badge style */
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .total-certificates {
+      margin-top: 20px;
+      padding: 10px 25px;
+      background: rgba(0, 168, 255, 0.15);
+      border: 1px solid rgba(0, 168, 255, 0.3);
+      border-radius: 50px;
+      display: inline-block;
+      font-weight: 600;
+      backdrop-filter: blur(5px);
+      transition: transform 0.3s ease;
+    }
+
+    .total-certificates:hover {
+      transform: scale(1.05);
+      background: rgba(0, 168, 255, 0.25);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      /* Better sizing */
+      gap: 30px;
+    }
+
+    .certificate {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s var(--animation-timing);
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      aspect-ratio: 4/3;
+      /* Consistent aspect ratio */
+    }
+
+    .certificate:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
+      border-color: rgba(0, 168, 255, 0.5);
+    }
+
+    .certificate img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .certificate:hover img {
+      transform: scale(1.1);
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.6) 80%, transparent);
+      color: white;
+      padding: 25px 20px;
+      transform: translateY(100%);
+      transition: transform 0.4s var(--animation-timing);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+      /* Cover almost full height on hover for readable text */
+      opacity: 0;
+    }
+
+    .certificate:hover .overlay {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Always show overlay on mobile touch, or just rely on click */
+    @media (hover: none) {
+      .overlay {
+        transform: translateY(0);
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        height: auto;
+      }
+    }
+
+    .overlay h3 {
+      margin: 0 0 5px;
+      font-size: 1.3em;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .overlay p {
+      margin: 0;
+      font-size: 0.95em;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+
+    .click-hint {
+      font-size: 0.8em;
+      margin-top: 15px;
+      color: var(--accent-color);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s 0.1s;
+    }
+
+    .certificate:hover .click-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      /* Prevent scrolling on body, handle in modal content */
+      background-color: var(--modal-bg);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      animation: fadeInModal 0.3s ease-out;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    @keyframes fadeInModal {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-content {
+      background-color: #1e2530;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      animation: scaleIn 0.3s ease-out;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      padding: 20px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-title {
+      font-size: 1.5em;
+      font-weight: 600;
+      margin: 0;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .close-btn {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+      background: none;
+      border: none;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 0;
+      overflow-y: auto;
+      /* Allow scrolling if image is tall */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Center image */
+      background: #000;
+      flex: 1;
+      min-height: 200px;
+    }
+
+    .modal-body img {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      width: auto;
+      height: auto;
+      display: block;
+    }
+
+    .modal-footer {
+      padding: 20px 25px;
+      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      /* Wrap on small screens */
+      gap: 15px;
+    }
+
+    .modal-desc {
+      color: #ccc;
+      font-size: 1em;
+      margin: 0;
+      max-width: 70%;
+    }
+
+    .download-btn {
+      background-color: var(--accent-color);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0, 168, 255, 0.2);
+    }
+
+    .download-btn:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 168, 255, 0.3);
+    }
+
+    .download-btn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 600px) {
+      .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .modal-desc {
+        max-width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .download-btn {
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
+
 <body>
- <div id="particles-js"></div>
- <div class="header">
- <h1>Yuvraj Singh Tomar</h1>
- <p>Cybersecurity Expert & Web Developer</p>
- <div class="total-certificates">Total Certificates: <span id="total-count">0</span></div>
- </div>
- <div class="container">
- <div id="categories"></div>
- </div>
+  <div id="particles-js"></div>
 
- <script>
-function getCategoryIcon(category) {
-  const icons = {
-    'Development': 'fa-code',
-    'Security': 'fa-shield-alt',
-    'Data & AI': 'fa-brain',
-    'Professional Certifications': 'fa-certificate'
-  };
-  return icons[category] || 'fa-award';
-}
+  <div class="header">
+    <h1>Yuvraj Singh Tomar</h1>
+    <p>Cybersecurity Expert & Web Developer</p>
+    <div class="total-certificates">Total Certificates: <span id="total-count">0</span></div>
+  </div>
 
-function getCertificateIcon(title) {
-  const icons = {
-    'JavaScript': 'fa-js',
-    'Python Programming': 'fa-python',
-    'MERN Stack Development': 'fa-node-js',
-    'Full Stack Development': 'fa-layer-group',
-    'Responsive Web Development': 'fa-mobile-alt',
-    'MySQL': 'fa-database',
-    'Deep Web Security': 'fa-user-secret',
-    'Ethical Hacking': 'fa-bug',
-    'Computer Forensics': 'fa-search',
-    'Red Team - Ethical Hacking': 'fa-skull',
-    'White Hat Hacking': 'fa-hat-cowboy',
-    'Cybersecurity Virtual Experience': 'fa-shield-virus',
-    'Data Analysis': 'fa-chart-bar',
-    'Generative AI': 'fa-robot',
-    'Geographic Information Systems': 'fa-globe',
-    'Power BI': 'fa-chart-pie',
-    'Prompt Engineering': 'fa-terminal',
-    'AI in Unity': 'fa-gamepad',
-    'Cisco Networking': 'fa-network-wired',
-    'Oracle Certification': 'fa-database',
-    'Google Navigation': 'fa-compass',
-    'Microsoft Azure': 'fa-cloud',
-    'Quality Management': 'fa-check-circle',
-    'Service and Sales Management': 'fa-handshake',
-    'Digital Marketing': 'fa-bullhorn'
-  };
-  return icons[title] || 'fa-award';
-}
+  <div class="container">
+    <div id="categories"></div>
+  </div>
 
-const certificates = {
- 'Development': [
-   {
-     image: 'javascript.jpg',
-     title: 'JavaScript',
-     description: 'Advanced certification in JavaScript programming'
-   },
-   {
-     image: 'python.jpg',
-     title: 'Python Programming',
-     description: 'Professional certification in Python programming'
-   },
-   {
-     image: 'MERN STACK.png',
-     title: 'MERN Stack Development',
-     description: 'Full-stack development certification in MongoDB, Express, React, and Node.js'
-   },
-   {
-     image: 'ROAD TO FULL STACK.jfif',
-     title: 'Full Stack Development',
-     description: 'Comprehensive certification in full-stack web development'
-   },
-   {
-     image: 'responsive web devlopment.jpg',
-     title: 'Responsive Web Development',
-     description: 'Certification in responsive web design and development'
-   },
-   {
-     image: 'MYSQL_page-0001.jpg',
-     title: 'MySQL',
-     description: 'Professional certification in MySQL database management'
-   }
- ],
- 'Security': [
-   {
-     image: 'deep web security.jpg',
-     title: 'Deep Web Security',
-     description: 'Advanced certification in deep web security protocols'
-   },
-   {
-     image: 'ethical hacking.jpg',
-     title: 'Ethical Hacking',
-     description: 'Professional certification in ethical hacking and cybersecurity'
-   },
-   {
-     image: 'forensic computer.jpg',
-     title: 'Computer Forensics',
-     description: 'Certification in computer forensics and digital investigation'
-   },
-   {
-     image: 'red team-ethical hacking.jpg',
-     title: 'Red Team - Ethical Hacking',
-     description: 'Advanced certification in red team security operations'
-   },
-   {
-     image: 'white hat hacking.jfif',
-     title: 'White Hat Hacking',
-     description: 'Certification in white hat hacking and security practices'
-   },
-   {
-     image: 'Cybersecurity Virtual Experience Program_page-0001.jpg',
-     title: 'Cybersecurity Virtual Experience',
-     description: 'Comprehensive virtual experience program in cybersecurity'
-   }
- ],
- 'Data & AI': [
-   {
-     image: 'DATA ANALYSIST.jfif',
-     title: 'Data Analysis',
-     description: 'Professional certification in data analysis and visualization'
-   },
-   {
-     image: 'GENRATIVE AI.jfif',
-     title: 'Generative AI',
-     description: 'Certification in generative AI technologies and applications'
-   },
-   {
-     image: 'GIS.jfif',
-     title: 'Geographic Information Systems',
-     description: 'Certification in GIS technologies and spatial analysis'
-   },
-   {
-     image: 'power bi.jpg',
-     title: 'Power BI',
-     description: 'Professional certification in Power BI data visualization'
-   },
-   {
-     image: 'prompt engineering.jfif',
-     title: 'Prompt Engineering',
-     description: 'Certification in AI prompt engineering techniques'
-   },
-   {
-     image: 'ai in unity practicle.jpg',
-     title: 'AI in Unity',
-     description: 'Practical certification in implementing AI in Unity game development'
-   }
- ],
- 'Professional Certifications': [
-   {
-     image: 'CISCO NETWORKING.jfif',
-     title: 'Cisco Networking',
-     description: 'Certification in Cisco Networking fundamentals and infrastructure'
-   },
-   {
-     image: 'Certificate OF ORACAL.jpg',
-     title: 'Oracle Certification',
-     description: 'Professional certification in Oracle database technologies'
-   },
-   {
-     image: 'NAVIGATING GOOGLE.jpg',
-     title: 'Google Navigation',
-     description: 'Certification in Google technologies and platforms'
-   },
-   {
-     image: 'azure badge.jfif',
-     title: 'Microsoft Azure',
-     description: 'Professional certification in Microsoft Azure cloud services'
-   },
-   {
-     image: 'quality management.jpg',
-     title: 'Quality Management',
-     description: 'Certification in quality management systems and practices'
-   },
-   {
-     image: 'service and sales management.jpg',
-     title: 'Service and Sales Management',
-     description: 'Professional certification in service and sales management'
-   },
-   {
-     image: 'Digital marketing_page-0001.jpg',
-     title: 'Digital Marketing',
-     description: 'Professional certification in digital marketing strategies and practices'
-   }
- ]
- };
+  <!-- Modal -->
+  <div id="certModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Certificate Title</h2>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" alt="Certificate View">
+      </div>
+      <div class="modal-footer">
+        <p class="modal-desc" id="modalDesc">Description goes here...</p>
+        <button class="download-btn" id="downloadBtn" onclick="downloadCurrentCert()">
+          <i class="fas fa-download"></i> Download Certificate
+        </button>
+      </div>
+    </div>
+  </div>
 
- const categoriesDiv = document.getElementById('categories');
+  <script>
+    // Certificate Data
+    const certificates = {
+      'Development': [
+        { image: 'javascript.jpg', title: 'JavaScript', description: 'Advanced certification in JavaScript programming' },
+        { image: 'python.jpg', title: 'Python Programming', description: 'Professional certification in Python programming' },
+        { image: 'MERN STACK.png', title: 'MERN Stack Development', description: 'Full-stack development certification in MongoDB, Express, React, and Node.js' },
+        { image: 'ROAD TO FULL STACK.jfif', title: 'Full Stack Development', description: 'Comprehensive certification in full-stack web development' },
+        { image: 'responsive web devlopment.jpg', title: 'Responsive Web Development', description: 'Certification in responsive web design and development' },
+        { image: 'MYSQL_page-0001.jpg', title: 'MySQL', description: 'Professional certification in MySQL database management' }
+      ],
+      'Security': [
+        { image: 'deep web security.jpg', title: 'Deep Web Security', description: 'Advanced certification in deep web security protocols' },
+        { image: 'ethical hacking.jpg', title: 'Ethical Hacking', description: 'Professional certification in ethical hacking and cybersecurity' },
+        { image: 'forensic computer.jpg', title: 'Computer Forensics', description: 'Certification in computer forensics and digital investigation' },
+        { image: 'red team-ethical hacking.jpg', title: 'Red Team - Ethical Hacking', description: 'Advanced certification in red team security operations' },
+        { image: 'white hat hacking.jfif', title: 'White Hat Hacking', description: 'Certification in white hat hacking and security practices' },
+        { image: 'Cybersecurity Virtual Experience Program_page-0001.jpg', title: 'Cybersecurity Virtual Experience', description: 'Comprehensive virtual experience program in cybersecurity' }
+      ],
+      'Data & AI': [
+        { image: 'DATA ANALYSIST.jfif', title: 'Data Analysis', description: 'Professional certification in data analysis and visualization' },
+        { image: 'GENRATIVE AI.jfif', title: 'Generative AI', description: 'Certification in generative AI technologies and applications' },
+        { image: 'GIS.jfif', title: 'Geographic Information Systems', description: 'Certification in GIS technologies and spatial analysis' },
+        { image: 'power bi.jpg', title: 'Power BI', description: 'Professional certification in Power BI data visualization' },
+        { image: 'prompt engineering.jfif', title: 'Prompt Engineering', description: 'Certification in AI prompt engineering techniques' },
+        { image: 'ai in unity practicle.jpg', title: 'AI in Unity', description: 'Practical certification in implementing AI in Unity game development' }
+      ],
+      'Professional Certifications': [
+        { image: 'CISCO NETWORKING.jfif', title: 'Cisco Networking', description: 'Certification in Cisco Networking fundamentals and infrastructure' },
+        { image: 'Certificate OF ORACAL.jpg', title: 'Oracle Certification', description: 'Professional certification in Oracle database technologies' },
+        { image: 'NAVIGATING GOOGLE.jpg', title: 'Google Navigation', description: 'Certification in Google technologies and platforms' },
+        { image: 'azure badge.jfif', title: 'Microsoft Azure', description: 'Professional certification in Microsoft Azure cloud services' },
+        { image: 'quality management.jpg', title: 'Quality Management', description: 'Certification in quality management systems and practices' },
+        { image: 'service and sales management.jpg', title: 'Service and Sales Management', description: 'Professional certification in service and sales management' },
+        { image: 'Digital marketing_page-0001.jpg', title: 'Digital Marketing', description: 'Professional certification in digital marketing strategies and practices' }
+      ]
+    };
 
- // Intersection Observer for fade-in animation
- const observer = new IntersectionObserver((entries) => {
-   entries.forEach(entry => {
-     if (entry.isIntersecting) {
-       entry.target.style.opacity = '1';
-       entry.target.style.transform = 'translateY(0)';
-       observer.unobserve(entry.target);
-     }
-   });
- }, { threshold: 0.1 });
+    // Helper: Icons
+    function getCategoryIcon(category) {
+      const icons = {
+        'Development': 'fa-code',
+        'Security': 'fa-shield-alt',
+        'Data & AI': 'fa-brain',
+        'Professional Certifications': 'fa-certificate'
+      };
+      return icons[category] || 'fa-award';
+    }
 
- // Calculate total certificates
- let totalCertificates = 0;
- Object.values(certificates).forEach(certs => {
-   totalCertificates += certs.length;
- });
- document.getElementById('total-count').textContent = totalCertificates;
+    function getCertificateIcon(title) {
+      // Simple mapping based on keywords to avoid huge list
+      const lowerTitle = title.toLowerCase();
+      if (lowerTitle.includes('js') || lowerTitle.includes('script')) return 'fa-js';
+      if (lowerTitle.includes('python')) return 'fa-python';
+      if (lowerTitle.includes('security') || lowerTitle.includes('hacking')) return 'fa-user-secret';
+      if (lowerTitle.includes('data') || lowerTitle.includes('analysis')) return 'fa-chart-bar';
+      if (lowerTitle.includes('cloud') || lowerTitle.includes('azure')) return 'fa-cloud';
+      if (lowerTitle.includes('web')) return 'fa-globe';
+      if (lowerTitle.includes('db') || lowerTitle.includes('sql') || lowerTitle.includes('oracle')) return 'fa-database';
+      return 'fa-award';
+    }
 
- Object.entries(certificates).forEach(([category, certs]) => {
- const categorySection = document.createElement('div');
- categorySection.className = 'category';
- categorySection.innerHTML = `
-   <h2 class="category-title"><i class="fas ${getCategoryIcon(category)}"></i> ${category} <span class="category-count">(${certs.length})</span></h2>
-   <div class="grid"></div>
- `;
+    // Render Logic
+    const categoriesDiv = document.getElementById('categories');
 
- const grid = categorySection.querySelector('.grid');
+    // Stats
+    let totalCertificates = 0;
+    Object.values(certificates).forEach(certs => totalCertificates += certs.length);
+    document.getElementById('total-count').textContent = totalCertificates;
 
- certs.forEach(cert => {
-   const item = document.createElement('div');
-   item.className = 'certificate';
-   
-   item.innerHTML = `
-     <img src="${cert.image}" alt="${cert.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Certificate+Image'">
-     <div class="overlay">
-       <h3><i class="fas ${getCertificateIcon(cert.title)}"></i> ${cert.title}</h3>
-       <p>${cert.description}</p>
-     </div>
-   `;
-   
-   grid.appendChild(item);
- });
+    // Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
 
- categoriesDiv.appendChild(categorySection);
- observer.observe(categorySection);
- });
+    // Build DOM
+    Object.entries(certificates).forEach(([category, certs]) => {
+      const categorySection = document.createElement('div');
+      categorySection.className = 'category';
+      categorySection.innerHTML = `
+        <h2 class="category-title"><i class="fas ${getCategoryIcon(category)}"></i> ${category} <span class="category-count">${certs.length}</span></h2>
+        <div class="grid"></div>
+      `;
 
- // Add smooth scroll behavior
- document.documentElement.style.scrollBehavior = 'smooth';
- </script>
- <script>
- particlesJS('particles-js', {
-  particles: {
-    number: { value: 100, density: { enable: true, value_area: 1000 } },
-    color: { value: '#00a8ff' },
-    shape: { type: 'circle' },
-    opacity: { value: 0.3, random: true },
-    size: { value: 2, random: true },
-    line_linked: { enable: true, distance: 150, color: '#00a8ff', opacity: 0.2, width: 1 },
-    move: { enable: true, speed: 2, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
-  },
-  interactivity: {
-    detect_on: 'window',
-    events: { onhover: { enable: true, mode: 'repulse' }, resize: true },
-    modes: { repulse: { distance: 100, duration: 0.4 } }
-  },
-  retina_detect: true
- });
- </script>
+      const grid = categorySection.querySelector('.grid');
+
+      certs.forEach(cert => {
+        const item = document.createElement('div');
+        item.className = 'certificate';
+        // Add click event for modal
+        item.onclick = () => openModal(cert.image, cert.title, cert.description);
+
+        item.innerHTML = `
+          <img src="${cert.image}" alt="${cert.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/1a1f2c/e1e1e1?text=Certificate'">
+          <div class="overlay">
+            <h3><i class="fas ${getCertificateIcon(cert.title)}"></i> ${cert.title}</h3>
+            <p>${cert.description}</p>
+            <div class="click-hint"><i class="fas fa-expand"></i> Click to View & Download</div>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+
+      categoriesDiv.appendChild(categorySection);
+      observer.observe(categorySection);
+    });
+
+    // Particle Background
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#00a8ff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.2, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: '#00a8ff', opacity: 0.15, width: 1 },
+        move: { enable: true, speed: 1.5, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' }, resize: true },
+        modes: { grab: { distance: 140, line_linked: { opacity: 0.5 } } }
+      },
+      retina_detect: true
+    });
+
+    // Modal & Download Logic
+    const modal = document.getElementById("certModal");
+    const modalImg = document.getElementById("modalImage");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    let currentImageSrc = "";
+    let currentImageTitle = "";
+
+    function openModal(imageSrc, title, desc) {
+      modal.style.display = "flex"; // Changed from block to flex for centering
+      modalImg.src = imageSrc;
+      modalTitle.innerHTML = `<i class="fas ${getCertificateIcon(title)}"></i> ${title}`;
+      modalDesc.textContent = desc;
+      currentImageSrc = imageSrc;
+      currentImageTitle = title;
+      document.body.style.overflow = 'hidden'; // Disable scroll
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+      document.body.style.overflow = ''; // Enable scroll
+    }
+
+    // Close on clicking outside content
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (event) {
+      if (event.key === "Escape" && modal.style.display === "flex") {
+        closeModal();
+      }
+    });
+
+    function downloadCurrentCert() {
+      const link = document.createElement('a');
+      link.href = currentImageSrc;
+      // Sanitize filename
+      const filename = currentImageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '_certificate.jpg';
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 </body>
+
 </html>
